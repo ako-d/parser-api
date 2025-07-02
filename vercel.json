@@ -2,5 +2,15 @@
   "version": 2,
   "builds": [
     { "src": "src/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    {
+      "src": "/api/parser",
+      "dest": "src/parser.js"
+    },
+    {
+      "src": "/api/parse-html",
+      "dest": "src/parse-html.js"
+    }
   ]
 }
