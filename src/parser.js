@@ -1,22 +1,18 @@
 import Parser from '@postlight/parser';
+import { corsSuccessResponse, corsErrorResponse } from './utils';
 
-import {
-  corsSuccessResponse,
-  corsErrorResponse,
-  runWarm,
-} from './utils';
+export default async function handler(req, res) {
+  const url = req.query.url;
 
-const parser = async ({ queryStringParameters }, context, cb) => {
-  const { url } = queryStringParameters;
+  if (!url) {
+    res.status(400).json({ error: 'URL query parameter is required' });
+    return;
+  }
 
-  const result = await Parser.parse(url);
-
-  return cb(
-    null,
-    result
-      ? corsSuccessResponse(result)
-      : corsErrorResponse({ message: 'There was an error parsing that URL.' })
-  );
-};
-
-export default runWarm(parser);
+  try {
+    const result = await Parser.parse(url);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Error parsing URL' });
+  }
+}
