@@ -4,7 +4,7 @@ import {
   corsSuccessResponse,
   corsErrorResponse,
   runWarm,
-} from './utils/index.ts';
+} from './utils';
 
 const parser = async ({ queryStringParameters }, context, cb) => {
   const { url } = queryStringParameters;
